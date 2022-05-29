@@ -1,0 +1,24 @@
+﻿
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+
+<ul class="navbar-nav">
+</ul>
+
+<h1>Confirm Email</h1>
+<div>
+    <p>
+        Thank you for confirming your email. Please <a asp-controller="Account" asp-action="Login">Click here to Log in</a>.
+    </p>
+    <h1> YOUR DETAILS ARE :</h1>
+    <h3> EmaiL:  @UserManager.GetUserName(User)</h3>
+    <h3> NAme: </h3>
+    Hello @UserManager.GetUserId(User)
+   
+
+    <h3> Password: </h3>
+    @UserManager.GetHashCode();
+</div>

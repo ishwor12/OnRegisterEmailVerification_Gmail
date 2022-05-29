@@ -1,0 +1,42 @@
+﻿
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    // var test = UserManager.FindByNameAsync(User.Identity.Name);
+    {
+<h6> Welcome @UserManager.GetUserName(User) </h6>
+                <li class="nav-item">
+                    <form id="logoutForm" method="post" class="form-inline" asp-controller="Account" asp-action="LogOff">
+                        <button type="submit" class="btn nav-link" style="padding-left:50px">Logout</button>
+                    </form>
+                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Product</a>
+                                                </li>
+                                                                <li class="nav-item">
+                                                                    <a class="nav-link text-dark" asp-area="" asp-controller="Customer" asp-action="Create">Employee</a>
+                                                                </li>
+                                                                                <li class="nav-item">
+                                                                                    <a class="nav-link text-dark" asp-area="" asp-controller="Transaction" asp-action="Index">Transaction</a>
+                                                                                </li>
+                                                                                                <li class="nav-item">
+                                                                                                    <a class="nav-link" asp-controller="Customer" asp-action="Create">Customer</a>
+                                                                                                </li>
+  }
+                        else
+ {
+                                                                                                <li class="nav-item">
+                                                                                                    <a class="nav-link" asp-controller="Account" asp-action="Register">Register</a>
+                                                                                                </li>
+                                                                                                                <li class="nav-item">
+                                                                                                                    <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
+                                                                                                                </li>
+ }
+</ul>
