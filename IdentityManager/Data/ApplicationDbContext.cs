@@ -19,6 +19,10 @@ namespace IdentityManager.Data
 
         public DbSet<Customer> Customer { get; set; }
         public DbSet<TransactionModel> Transactions { get; set; }
+        public DbSet<Student> Student { get; set; }
+        public DbSet<Teacher> Teacher { get; set; }
+        public DbSet<Department> Department { get; set; }
+        
 
 
     }

@@ -1,32 +1,4 @@
 ﻿
-//$(document).ready(function () {
-//    $("#btnAddRow").click(function () {
-
-//        //Getting value from to populate
-//        var Fname = $("#txtFName").val();
-//        var Lname = $("#txtLName").val();
-//        var Email = $("#txtAddress").val();
-//        var Phone = $("#txtAddress").val();
-//        var Id = $("#txtPhone").val();
-//        var Company = $("#txtcompany").val();
-
-//        //Prepare TR to add in Table
-//        var tr;
-//        tr = $('<tr/>');
-//        tr.append("<td>" + Fname + "</td>");
-//        tr.append("<td>" + Lname + "</td>");
-//        tr.append("<td>" + Email + "</td>");
-//        tr.append("<td>" + Id + "</td>");
-//        tr.append("<td>" + Phone + "</td>");
-//        tr.append("<td>" + Company + "</td>");
-//        $('#commenttable').append(tr);
-
-//    });
-//});
-// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
 
 $(function () {
     $("#loaderbody").addClass('hide');
@@ -36,10 +8,14 @@ $(function () {
     }).bind('ajaxStop', function () {
         $("#loaderbody").addClass('hide');
     });
+    $(document).ready()
+    {
+        
+    }
 });
-
 showInPopup = (url, title) => {
     $.ajax({
+
         type: 'GET',
         url: url,
         success: function (res) {
@@ -55,6 +31,7 @@ showInPopup = (url, title) => {
 }
 
 jQueryAjaxPost = form => {
+    
     try {
         $.ajax({
             type: 'POST',
@@ -63,6 +40,7 @@ jQueryAjaxPost = form => {
             contentType: false,
             processData: false,
             success: function (res) {
+                
                 if (res.isValid) {
                     $('#view-all').html(res.html)
                     $('#form-modal .modal-body').html('');

@@ -5,38 +5,41 @@
 @inject UserManager<ApplicationUser> UserManager
 
 <ul class="navbar-nav">
+
     @if (SignInManager.IsSignedIn(User))
     // var test = UserManager.FindByNameAsync(User.Identity.Name);
     {
-<h6> Welcome @UserManager.GetUserName(User) </h6>
-                <li class="nav-item">
-                    <form id="logoutForm" method="post" class="form-inline" asp-controller="Account" asp-action="LogOff">
-                        <button type="submit" class="btn nav-link" style="padding-left:50px">Logout</button>
-                    </form>
-                </li>
+<br />
+                <h6> Welcm @UserManager.GetUserName(User) </h6>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                                    <form id="logoutForm" method="post" class="form-inline" asp-controller="Account" asp-action="LogOff">
+                                        <button type="submit" class="btn nav-link" style="padding-left:50px">Logout</button>
+                                    </form>
                                 </li>
+
                                                 <li class="nav-item">
-                                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Product</a>
-                                                </li>
+                                                    <a class="nav-link text-dark" asp-area="" asp-controller="Customer" asp-action="Index">Customer</a>
+                                                </li> @*<li class="nav-item">
+                                                                        <a class="nav-link text-dark" asp-area="" asp-controller="Student" asp-action="Index">Student</a>
+                                                                    </li>*@
                                                                 <li class="nav-item">
-                                                                    <a class="nav-link text-dark" asp-area="" asp-controller="Customer" asp-action="Create">Employee</a>
+                                                                    <a class="nav-link text-dark" asp-area="" asp-controller="Transaction" asp-action="Index">Transaction</a>
                                                                 </li>
                                                                                 <li class="nav-item">
-                                                                                    <a class="nav-link text-dark" asp-area="" asp-controller="Transaction" asp-action="Index">Transaction</a>
+                                                                                    <a class="nav-link" asp-controller="Department" asp-action="Create">Department</a>
                                                                                 </li>
                                                                                                 <li class="nav-item">
-                                                                                                    <a class="nav-link" asp-controller="Customer" asp-action="Create">Customer</a>
-                                                                                                </li>
-  }
-                        else
- {
+                                                                                                    <a class="nav-link" asp-controller="Teacher" asp-action="Index">Teacher</a>
+                                                                                                </li> }
+                                                                                                            else
+                                                                                                            {
                                                                                                 <li class="nav-item">
                                                                                                     <a class="nav-link" asp-controller="Account" asp-action="Register">Register</a>
                                                                                                 </li>
                                                                                                                 <li class="nav-item">
                                                                                                                     <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
                                                                                                                 </li>
- }
+                                                                                                                                <li class="nav-item">
+                                                                                                                                    <a class="nav-link text-dark" asp-area="" asp-controller="Transaction" asp-action="Index">Transaction</a>
+                                                                                                                                </li>}
 </ul>

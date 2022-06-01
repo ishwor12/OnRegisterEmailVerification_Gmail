@@ -1,91 +1,65 @@
-﻿using IdentityManager.Models;
-using Microsoft.AspNetCore.Http;
+﻿using IdentityManager.Interface;
+using IdentityManager.Models;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace IdentityManager.Controllers
 {
     public class CustomerController : Controller
     {
+        private IGenericRepository<Customer> _repository;
+        public CustomerController(IGenericRepository<Customer> repository)
+        {
+            _repository = repository;
+        }
+
         // GET: CustomerController
-        public ActionResult Index()
-        {
-            return View();
-        }
+        [HttpGet]
 
-        // GET: CustomerController/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult<IEnumerable<Customer>>> Index()
         {
-            return View();
+            var Customer = await _repository.GetAll();
+            return View(Customer);
         }
-
-        // GET: CustomerController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: CustomerController/Create
         [HttpPost]
-
-        public JsonResult  Create(Customer empObj) 
+        public ActionResult Create(Customer Customer)
         {
-            return Json(empObj);
+            if (ModelState.IsValid)
+            {
+                _repository.Add(Customer);
 
-
-            //try
-            //{
-            //    return RedirectToAction(nameof(Index); 
-            //}
-            //catch
-            //{
-            //    return View();
-            //}
+            }
+            return RedirectToAction("Index");
         }
-
-        // GET: CustomerController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int Id)
         {
-            return View();
+            Customer model = _repository.Get(Id);
+            return View(model);
         }
-
-        // POST: CustomerController/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(Customer model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                _repository.Update(model);
+                _repository.Save();
+                return RedirectToAction("Index", "Customer");
             }
-            catch
+            else
             {
-                return View();
+                return View(model);
             }
-        }
 
-        // GET: CustomerController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
 
-        // POST: CustomerController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }
+
+
+

@@ -1,5 +1,6 @@
 ﻿using IdentityManager.Data;
 using IdentityManager.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -25,7 +26,7 @@ namespace IdentityManager.Controllers
 
         // GET: Transaction/AddOrEdit(Insert)
         // GET: Transaction/AddOrEdit/5(Update)
-        [NoDirectAccess]
+        [Authorize]
         public async Task<IActionResult> AddOrEdit(int id = 0)
         {
             if (id == 0)
@@ -42,7 +43,7 @@ namespace IdentityManager.Controllers
         }
 
         [HttpPost]
-      //  [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> AddOrEdit(int id, [Bind("TransactionId,AccountNumber,BeneficiaryName,BankName,SWIFTCode,Amount,Date")] TransactionModel transactionModel)
         {
             if (ModelState.IsValid)
@@ -77,6 +78,7 @@ namespace IdentityManager.Controllers
         }
 
         // GET: Transaction/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -95,8 +97,10 @@ namespace IdentityManager.Controllers
         }
 
         // POST: Transaction/Delete/5
+        [Authorize]
         [HttpPost, ActionName("Delete")]
-       /// [ValidateAntiForgeryToken]
+
+       
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var transactionModel = await _context.Transactions.FindAsync(id);

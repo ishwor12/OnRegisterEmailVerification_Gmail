@@ -1,48 +1,53 @@
-﻿<table id="commenttable">
-    <thead>
-        <tr>
-            <th>
+﻿@model IdentityManager.Models.Customer
 
-                <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i>Demo Details </h3>
+@{ ViewData["Title"] = "Create"; }
 
-            </th>
-            <th>
-                <label> ID</label>
-                <input type="text" id="txtid" class="form-control" placeholder="Enter Employee Id" required="" />
-            </th>
-            <th>
-                <label>First Name</label>
-                <input type="text" id="txtFName" class="form-control" placeholder="Enter First Name" required="" />
-            </th>
-            <th>
-                <label>last Name</label>
-                <input type="text" id="txtLName" class="form-control" placeholder="Enter SurName" required="" />
-            </th>
-            <th>
-                <label>Email</label>
-                <input type="email" id="txtAddress" class="form-control" placeholder="Enter Email-Address" required="" />
-            </th>
-            <th>
-                <label>Phone Number</label>
-                <input type="number" id="txtPhone" class="form-control" placeholder="Enter Phone " required="" />
-            </th>
-            <th>
-                <label>Company</label>
-                <input type="text" id="txtcompany" class="form-control" placeholder="Enter Company Name" required="" />
-            </th>
+<h1>Create</h1>
 
+<h4>CustomerDetails</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+       <form asp-action="Create" >
+       
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="control-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Company" class="control-label"></label>
+                <input asp-for="Company" class="form-control" />
+                <span asp-validation-for="Company" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
 
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 
-            <th>
-                <button type="button" class="btn btn-primary" id="btnAddRow" >Add</button>
-                <button type="button" class="btn btn-primary" id="btnUpdate" style="display:none;" onclick="Update()">Update</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </th>
-        </tr>
-    </thead>
-</table>
-
-<script src="~/js/site.js"></script>
-
-
-
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

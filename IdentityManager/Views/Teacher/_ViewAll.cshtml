@@ -1,0 +1,62 @@
+﻿@model IEnumerable<IdentityManager.Models.Teacher>
+
+<div class="col-md-8 offset-md-2">
+
+    <h1 class="text-center"><i class="fas fa-comments-dollar text-success"></i>Teacher</h1>
+
+
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.TeacherName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Salary)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BirthDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Qualification)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Experience)
+                </th>
+                <th>
+                    <a onclick="showInPopup('@Url.Action("Index","Teacher",null,Context.Request.Scheme)',' New Teacher')" class="btn btn-success text-white"><i class="fas fa-random"></i> New Teacher</a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TeacherName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Salary)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BirthDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Qualification)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Experience)
+                </td>
+                <td>
+                    <div>
+                        <a onclick="showInPopup('@Url.Action("Index","Teacher",new {id=item.TeacherId},Context.Request.Scheme)','Update Teacher')" class="btn btn-info text-white"><i class="fas fa-pencil-alt"></i> Edit</a>
+                        <form asp-action="Delete" asp-route-id="@item.TeacherId" onsubmit="return jQueryAjaxDelete(this)" class="d-inline">
+                            <input type="hidden" asp-for="@item.TeacherId" />
+                            <input type="submit" value="Delete" class="btn btn-danger" />
+                        </form>
+                    </div>
+                </td>
+            </tr>}
+        </tbody>
+    </table>
+</div>

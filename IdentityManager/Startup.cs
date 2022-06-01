@@ -1,21 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using IdentityManager.Data;
+using IdentityManager.GenericRepository.Interface;
+using IdentityManager.GenericRepositorys;
+using IdentityManager.Interface;
 using IdentityManager.Models;
+using IdentityManager.Repo;
+using IdentityManager.Repo.Interface;
 using IdentityManager.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.SqlServer.Management.Smo;
-using static IdentityManager.Data.ApplicationDbContext;
 
 namespace IdentityManager
 {
@@ -31,17 +29,26 @@ namespace IdentityManager
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); //=> lambda expression
 
-            services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IEmailSender, EmailSender>(); //email sender dependencies
+            services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>)); // generic repo and its interface
             services.AddDefaultIdentity<ApplicationUser>()
                 .AddRoles<IdentityRole>()                
                 .AddRoleManager<RoleManager<IdentityRole>>()
                 //.IdentityRole<int>
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+           // services.AddScoped<IDeptment, DepartmentRepo>();
+            services.AddScoped<IStudentRepo, GenericRepository.Interface.StudentRepo>();
 
             services.AddControllersWithViews();
-
+            services.AddControllersWithViews();
+            services.AddRazorPages();
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy("AtLeast21", policy =>
+            //        policy.Requirements.Add(new policy));
+            //});
 
 
         }

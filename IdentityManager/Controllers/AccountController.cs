@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IdentityManager.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -28,15 +29,16 @@ namespace IdentityManager.Controllers
         }
 
         [HttpGet]
-        public  async  Task<IActionResult> Register(string returnurl=null)
+        [AllowAnonymous]
+        public   ActionResult Register(string returnurl=null)
         {
-            ViewData["ReturnUrl"] = returnurl;
-            RegisterViewModel registerViewModel = new RegisterViewModel();
-            return View(registerViewModel);
+            ViewData ["ReturnUrl"] =  returnurl;
+             RegisterViewModel  registerViewModel =  new RegisterViewModel();
+            return View (registerViewModel);
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterViewModel model, string returnurl=null)
         {
             ViewData["ReturnUrl"] = returnurl;
@@ -83,6 +85,7 @@ namespace IdentityManager.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Login(string returnurl=null)
         {
             ViewData["ReturnUrl"] = returnurl;
@@ -90,7 +93,7 @@ namespace IdentityManager.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel model, string returnurl=null)
         {
             ViewData["ReturnUrl"] = returnurl;
