@@ -22,11 +22,7 @@ namespace IdentityManager.Interface
         {
             throw new System.NotImplementedException();
         }
-        public  IEnumerable<Customer> GetAll()
-        {
-            var data =  _context.Customer.ToList();
-            return data;
-        }
+       
       
 
     }

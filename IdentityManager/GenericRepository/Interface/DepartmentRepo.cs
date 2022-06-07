@@ -15,10 +15,6 @@ namespace IdentityManager.GenericRepository.Interface
         {
             this._dbContext = dbContext;
         }
-        public IEnumerable<Department> GetAll()
-        {
-            var data = _context.Department.ToList();
-            return data;
-        }
+       
     }
 }

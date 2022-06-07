@@ -3,6 +3,7 @@ using IdentityManager.GenericRepository.Interface;
 using IdentityManager.Interface;
 using IdentityManager.Models;
 using IdentityManager.Repo.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,6 +13,8 @@ using System.Threading.Tasks;
 
 namespace IdentityManager.Controllers
 {
+    [Authorize(Policy = "rolecreation")]
+    // defined in  options.AddPolicy rolecreation = admin
     public class DepartmentController : Controller
     {
 

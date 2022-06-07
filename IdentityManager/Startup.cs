@@ -1,3 +1,4 @@
+using IdentityManager.Areas.Data;
 using IdentityManager.Data;
 using IdentityManager.GenericRepository.Interface;
 using IdentityManager.GenericRepositorys;
@@ -29,28 +30,30 @@ namespace IdentityManager
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); //=> lambda expression
-
-            services.AddTransient<IEmailSender, EmailSender>(); //email sender dependencies
-            services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>)); // generic repo and its interface
-            services.AddDefaultIdentity<ApplicationUser>()
-                .AddRoles<IdentityRole>()                
-                .AddRoleManager<RoleManager<IdentityRole>>()
-                //.IdentityRole<int>
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-           // services.AddScoped<IDeptment, DepartmentRepo>();
-            services.AddScoped<IStudentRepo, GenericRepository.Interface.StudentRepo>();
-
-            services.AddControllersWithViews();
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDatabaseDeveloperPageExceptionFilter();
+            services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+            services.AddScoped<IUserClaimsPrincipalFactory<IdentityUser>, ApplicationUserClaimsPrincipalFactory>();
             services.AddControllersWithViews();
             services.AddRazorPages();
-            //services.AddAuthorization(options =>
-            //{
-            //    options.AddPolicy("AtLeast21", policy =>
-            //        policy.Requirements.Add(new policy));
-            //});
-
-
+            // services.AddScoped<IUserClaimsPrincipalFactory<IdentityUser>, ApplicationUserClaimsPrincipalFactory>();
+            //services.AddDefaultIdentity<IdentityUser>()
+            // .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("EmailID", policy =>
+                policy.RequireClaim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name", "ishwor.khatiwada2016@gmail.com"
+                ));
+                options.AddPolicy("rolecreation", policy =>
+         policy.RequireRole("Admin")
+        );
+            });
+                services.AddScoped<IStudentRepo, GenericRepository.Interface.StudentRepo>();
+            services.AddTransient<IEmailSender, EmailSender>(); //email sender dependencies
+            services.AddTransient<ICustomer, CustomerRepo>(); //email sender dependencies
+            services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>)); 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,6 +62,7 @@ namespace IdentityManager
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseMigrationsEndPoint();
             }
             else
             {
@@ -68,19 +72,21 @@ namespace IdentityManager
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            
             app.UseRouting();
+
             app.UseAuthentication();
             app.UseAuthorization();
-           
-           
-    app.UseEndpoints(endpoints =>
-    {
-        endpoints.MapControllerRoute(
-            name: "default",
-            pattern: "{controller=Home}/{action=Index}/{id?}");
-    });
 
 
-            }
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
+            });
+        }
     }
+
 }

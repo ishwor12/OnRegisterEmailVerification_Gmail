@@ -1,5 +1,6 @@
 ﻿using IdentityManager.Interface;
 using IdentityManager.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -8,10 +9,10 @@ namespace IdentityManager.Controllers
 {
     public class CustomerController : Controller
     {
-        private IGenericRepository<Customer> _repository;
-        public CustomerController(IGenericRepository<Customer> repository)
+        private ICustomer _repository;
+        public CustomerController(ICustomer customer)
         {
-            _repository = repository;
+            _repository = customer;
         }
 
         // GET: CustomerController
@@ -22,12 +23,14 @@ namespace IdentityManager.Controllers
             var Customer = await _repository.GetAll();
             return View(Customer);
         }
+        [Authorize(Policy = "EmailID")]
         public ActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Policy = "EmailID")]
         public ActionResult Create(Customer Customer)
         {
             if (ModelState.IsValid)
@@ -57,6 +60,10 @@ namespace IdentityManager.Controllers
             }
 
 
+        }
+        public IActionResult Claims()
+        {
+            return View();
         }
     }
 }

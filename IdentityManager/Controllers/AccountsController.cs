@@ -30,16 +30,17 @@ namespace IdentityManager.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public   ActionResult Register(string returnurl=null)
+        public ActionResult Register(string returnurl = null)
         {
-            ViewData ["ReturnUrl"] =  returnurl;
-             RegisterViewModel  registerViewModel =  new RegisterViewModel();
-            return View (registerViewModel);
+            ViewData["ReturnUrl"] = returnurl;
+            RegisterViewModel registerViewModel = new RegisterViewModel();
+            return View(registerViewModel);
         }
 
         [HttpPost]
-        [AllowAnonymous]
-        public async Task<IActionResult> Register(RegisterViewModel model, string returnurl=null)
+        [Authorize(Policy = "rolecreation")]
+        // defined in  options.AddPolicy rolecreation = admin
+        public async Task<IActionResult> Register(RegisterViewModel model, string returnurl = null)
         {
             ViewData["ReturnUrl"] = returnurl;
             returnurl = returnurl ?? Url.Content("~/Account/Login");
@@ -54,23 +55,23 @@ namespace IdentityManager.Controllers
 
                     await _emailSender.SendEmailAsync(model.Email, "Confirm your account - Identity Manager",
                         "Please confirm your account by clicking here: <a href=\"" + callbackurl + "\">link</a>");
-                  //  await _signInManager.SignInAsync(user, isPersistent: false);
+                    //  await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnurl);
                 }
-                
-                 
-                
+
+
+
                 AddErrors(result);
             }
 
-            
+
             return View(model);
         }
 
         [HttpGet]
-        public async Task<IActionResult> ConfirmEmail(string userId,string code)
+        public async Task<IActionResult> ConfirmEmail(string userId, string code)
         {
-            if(userId==null || code == null)
+            if (userId == null || code == null)
             {
                 return View("Error");
             }
@@ -86,7 +87,7 @@ namespace IdentityManager.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Login(string returnurl=null)
+        public IActionResult Login(string returnurl = null)
         {
             ViewData["ReturnUrl"] = returnurl;
             return View();
@@ -94,14 +95,14 @@ namespace IdentityManager.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(LoginViewModel model, string returnurl=null)
+        public async Task<IActionResult> Login(LoginViewModel model, string returnurl = null)
         {
             ViewData["ReturnUrl"] = returnurl;
             returnurl = returnurl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(model.Email);
-                if (user ==null)
+                if (user == null)
                 {
 
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
@@ -114,7 +115,7 @@ namespace IdentityManager.Controllers
                     return View(model);
                 }
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: true);
-                 
+
                 if (result.Succeeded)
                 {
                     return LocalRedirect(returnurl);
@@ -137,11 +138,11 @@ namespace IdentityManager.Controllers
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+      
         public async Task<IActionResult> LogOff()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction(nameof(HomeController.Index),"Home");
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
 
@@ -152,7 +153,7 @@ namespace IdentityManager.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+     
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
 
@@ -184,13 +185,13 @@ namespace IdentityManager.Controllers
 
 
         [HttpGet]
-        public IActionResult ResetPassword(string code=null)
+        public IActionResult ResetPassword(string code = null)
         {
             return code == null ? View("Error") : View();
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+      
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
 
@@ -226,6 +227,6 @@ namespace IdentityManager.Controllers
                 ModelState.AddModelError(string.Empty, error.Description);
             }
         }
-        
+
     }
 }

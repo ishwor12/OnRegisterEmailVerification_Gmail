@@ -9,11 +9,8 @@ namespace IdentityManager.Models
 {
     public class ApplicationUser : IdentityUser
     {
-       
 
-        internal static void Add(ApplicationUser applicationUser)
-        {
-            throw new NotImplementedException();
-        }
+
+        
     }
 }

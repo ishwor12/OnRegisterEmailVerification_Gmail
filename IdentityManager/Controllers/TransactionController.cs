@@ -11,6 +11,7 @@ using static IdentityManager.Helper;
 
 namespace IdentityManager.Controllers
 {
+    [Authorize(Policy = "rolecreation")]
     public class TransactionController : Controller
     {
         private readonly ApplicationDbContext _context;

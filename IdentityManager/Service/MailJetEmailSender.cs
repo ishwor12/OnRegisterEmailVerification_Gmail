@@ -35,7 +35,7 @@ namespace IdentityManager.Service
                 Credentials = new NetworkCredential(fromMail, fromPassword),
                 EnableSsl = true,
             };
-            smtpClient.Send(message);
+           await smtpClient.SendMailAsync(message);
         }
 
     }

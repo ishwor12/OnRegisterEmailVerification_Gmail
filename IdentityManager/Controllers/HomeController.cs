@@ -19,11 +19,30 @@ namespace IdentityManager.Controllers
             _logger = logger;
         }
 
+        public IActionResult CreateStudent()
+        {
+            return View();
+        }
+        [HttpPost]
+        public JsonResult CreateStudent(int StudentId,string name,string ContactNumber, string EmailAddress, string Address, string Batch, DateTime AddmissionDate, int RegistrationNo)
+        {
+            Student std = new Student
+            {
+                Name = name,
+                ContactNumber= ContactNumber,
+                EmailAddress = EmailAddress,
+              Address = Address,
+                Batch         = Batch,
+                AddmissionDate =AddmissionDate,
+                RegistrationNo=RegistrationNo
+            };
+            return Json(std);
+        }
         public IActionResult Index()
         {
             return View();
         }
-        [Authorize]
+
         public IActionResult Privacy()
         {
             return View();

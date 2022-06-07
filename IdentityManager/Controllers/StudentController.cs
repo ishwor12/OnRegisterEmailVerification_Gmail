@@ -22,9 +22,9 @@ namespace IdentityManager.Controllers
 
         [HttpGet]
 
-        public async Task<ActionResult<IEnumerable<Student>>> Index()
+        public  ActionResult<IEnumerable<Student>> Index()
         {
-            var students = _DbContext.Student.ToList();
+            var students =  _DbContext.Student.ToList();
             return View(students);
         }
         public ActionResult Create()
