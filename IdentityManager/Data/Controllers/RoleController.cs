@@ -12,7 +12,7 @@ namespace IdentityManager.Controllers
     // defined in  options.AddPolicy rolecreation = admin
     public class RoleController : Controller
     {
-        RoleManager<IdentityRole> roleMgr;
+       private  RoleManager<IdentityRole> roleManager;
         public RoleController(RoleManager<IdentityRole> roleManager)
         {
             this.roleManager = roleManager;
